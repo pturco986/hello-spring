@@ -29,6 +29,7 @@ public class HelloController {
 		}
 		
 		model.addAttribute("name", name);
+		model.addAttribute("title", "Hello, Spring! Response");
 		return "hello";
 		
 	}
