@@ -3,7 +3,7 @@
 	<head th:replace="template :: header">	
 	</head>
 	<body>
-		<h1 th:text=" 'Hello, ' + ${name} + '!'"></h1>
+		<h1 th:text=" ${language} + ', ' + ${name} + '!'"></h1>
 	</body>
 
 	<div th:replace="template :: footer"> </div>

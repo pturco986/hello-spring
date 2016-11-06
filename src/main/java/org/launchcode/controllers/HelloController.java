@@ -22,15 +22,25 @@ public class HelloController {
 	@RequestMapping(value = "/hello", method = RequestMethod.POST)
 	public String hello(HttpServletRequest request, Model model) {
 		String name = request.getParameter("name");
-		
+		String language = request.getParameter("language");
 		//get the name parameter from request; will be null if no parameter is passed in
 		if (name == null || name == ""){
 			name = "world";
 		}
-		
+		if (language == null || language == "" || language == "english"){
+			language = "Hello";
+		}else if (language == "german"){
+			language = "hallo";
+		}else if(language == "french"){
+			language = "Bonjour";
+		}else{
+			return "Hello";
+		}
+		model.addAttribute("language", language);
 		model.addAttribute("name", name);
 		model.addAttribute("title", "Hello, Spring! Response");
 		return "hello";
+		
 		
 	}
 	
