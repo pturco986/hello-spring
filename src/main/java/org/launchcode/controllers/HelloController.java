@@ -1,17 +1,22 @@
 package org.launchcode.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
-import org.launchcode.models.HelloMessage;
+import org.launchcode.models.HelloLog;
+import org.launchcode.models.dao.HelloLogDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class HelloController {
-
+	
+	@Autowired
+	private HelloLogDao helloLogDao;
 	
 	@RequestMapping(value = "/hello", method = RequestMethod.GET)
 	public String helloform()
@@ -27,21 +32,28 @@ public class HelloController {
 		if (name == null || name == ""){
 			name = "world";
 		}
-		if (language == null || language == "" || language == "english"){
+		if (language == null || language == ""){
 			language = "Hello";
-		}else if (language == "german"){
-			language = "hallo";
-		}else if(language == "french"){
-			language = "Bonjour";
-		}else{
-			return "Hello";
 		}
-		model.addAttribute("language", language);
+		
+		HelloLog log = new HelloLog(name);
+		helloLogDao.save(log);
+		
 		model.addAttribute("name", name);
+		model.addAttribute("language", language);
 		model.addAttribute("title", "Hello, Spring! Response");
 		return "hello";
 		
 		
+	}
+	@RequestMapping(value = "/log")
+	public String log(Model model){
+		//get data out of db
+		List<HelloLog> logs = helloLogDao.findAll();
+		//put data into template
+		model.addAttribute("logs", logs);
+		
+		return "log";
 	}
 	
 	
